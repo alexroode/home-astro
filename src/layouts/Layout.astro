@@ -4,48 +4,76 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
+		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-GHTQJD3YTD"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-GHTQJD3YTD');
+		</script>
+		<title>{title} - Alexander Roode</title>
 	</head>
-	<body>
-		<slot />
+	<body class="bg-gray-100 position-relative" ontouchstart="true">
+		<header>
+			<div class="bg-primary-dark py-3 py-md-4">
+				<div class="main-title-container container-lg pe-6">
+					<a href="/" class="title-link">
+						<h1 class="main-title mb-0">Alexander Roode</h1>
+						<h2 class="mb-0">Composer</h2>
+					</a>
+					<div class="navbar-dark navbar-expand-md">
+						<button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="bg-primary">
+				<div class="container-lg px-0">
+					<div class="navbar navbar-dark navbar-expand-md p-0">
+						<div id="main-nav" class="navbar-collapse collapse">
+							<ul class="nav navbar-nav font-125">
+								<li class="nav-item">
+									<a class="nav-link" href="/">Home</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/bio">Bio</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/music">Music</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/contact">Contact</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<slot name="subnav" />
+		</header>
+		<main class="bg-white py-3 py-md-4">
+			<div class="container-lg">
+				<slot />
+			</div>
+		</main>
+		<!-- Cart app -->
+		<footer class="py-5">
+			<div class="container-lg text-center text-sm">
+				<p class="text-muted">
+					© {year} Alexander Roode | <a href="/privacy-policy">Privacy Policy</a>
+				</p>
+			</div>
+		</footer>
 	</body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-</style>
