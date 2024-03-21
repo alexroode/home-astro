@@ -1,0 +1,16 @@
+---
+import MusicLayout from "../../../layouts/MusicLayout.astro";
+import { Music } from "../../../services/music-service";
+export async function getStaticPaths() {
+    const library = await Music.getLibrary();
+    
+    return library.pieces.map(({ categoryId, id }) => ({
+        params: { categoryId: categoryId, pieceId: id },
+        props: { id },
+    }));
+}
+---
+
+<MusicLayout title={Astro.props.id}>
+    <h1>{Astro.props.id}</h1>
+</MusicLayout>

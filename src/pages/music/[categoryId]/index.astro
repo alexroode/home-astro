@@ -1,0 +1,32 @@
+---
+import MusicLayout from "../../../layouts/MusicLayout.astro";
+import { Music } from "../../../services/music-service";
+import ListRow from "../../../components/ListRow.astro";
+import { formatPieceYear } from "../../../utils/date-utils.js";
+
+export async function getStaticPaths() {
+    const library = await Music.getLibrary();
+    
+    return library.categories.map(({ id }) => ({
+        params: { categoryId: id },
+        props: { id },
+    }));
+}
+
+const category = await Music.findCategory(Astro.params.categoryId);
+const pieces = await Music.getInCategory(Astro.params.categoryId);
+---
+
+<MusicLayout title={category.name}>
+    <h1>{category.name}</h1>
+    <p>{category.description}</p>
+
+    {pieces.map(piece => (
+        <ListRow
+            url={`/music/${piece.categoryId}/${piece.id}`} 
+            label={piece.title}
+            description={piece.subtitle} 
+            secondaryLabel={formatPieceYear(piece)}
+        />
+    ))}
+</MusicLayout>
