@@ -1,16 +1,65 @@
 ---
 import MusicLayout from "../../../layouts/MusicLayout.astro";
+import PiecePurchase from "../../../components/PiecePurchase.astro";
+import PiecePerformances from "../../../components/PiecePerformances.astro";
+
 import { Music } from "../../../services/music-service";
+import { formatPieceYear } from "../../../utils/date-utils";
+import { formatDuration, formatGrade } from "../../../utils/formatters";
+
 export async function getStaticPaths() {
     const library = await Music.getLibrary();
     
     return library.pieces.map(({ categoryId, id }) => ({
-        params: { categoryId: categoryId, pieceId: id },
-        props: { id },
+        params: { categoryId: categoryId, pieceId: id }
     }));
 }
+
+const piece = await Music.findPiece(Astro.params.pieceId, Astro.params.categoryId);
+
+const { accolades } = piece;
 ---
 
-<MusicLayout title={Astro.props.id}>
-    <h1>{Astro.props.id}</h1>
+<MusicLayout title={piece.title}>
+    <h1 class="mb-1">{piece.title} <span class="piece-year">{formatPieceYear(piece)}</span></h1>
+    <h2 class="mb-0 susbtitle">{piece.subtitle}</h2>
+
+    <div class="row">
+        <div class="col-md-7 py-s">
+            {accolades && <div class="mb-5"><em set:html={accolades} /></div>}
+
+            <PiecePurchase piece={piece} />
+
+            {piece.description && <div></div>}
+
+            <PiecePerformances piece={piece} />
+        </div>
+        <div class="col-md-5">
+            <div class="sticky-top pb-s pt-md-s">
+                {piece.duration && piece.duration > 0 && <>
+                    <h4>Duration</h4>
+                    <div class="mb-4">{formatDuration(piece.duration)}</div>
+                </>}
+                {piece.grade && piece.grade > 0 && <>
+                    <h4>Grade</h4>
+                    <div class="mb-4">{formatGrade(piece.grade)}</div>
+                </>}
+                {piece.scores && piece.scores.length > 0 && <>
+                    <h4>Score</h4>
+                    <ul class="list-unstyled mb-4">
+                        {piece.scores.map(score => (<li class="mb-3"><a href={score.url} target="_blank">{score.title}</a></li>))}
+                    </ul>
+                </>}
+                {piece.audio && piece.audio.length > 0 && <>
+                    <h4>Audio</h4>
+                    {piece.audio.map(audioFile => (
+                        <div class="audio">
+                            <p class="fw-bold">{audioFile.title}</p>
+                            <audio src={audioFile.url} preload="metadata" controls class="mb-4"/>
+                        </div>
+                    ))}
+                </>}
+            </div>
+        </div>
+    </div>
 </MusicLayout>
