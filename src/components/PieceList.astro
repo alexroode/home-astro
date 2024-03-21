@@ -1,0 +1,25 @@
+---
+import type { Piece } from "../types";
+import { formatPieceYear } from "../utils/date-utils";
+import ListRow from "./ListRow.astro";
+
+interface Props {
+    pieces: Piece[];
+}
+
+const { pieces } = Astro.props;
+
+if (!pieces || pieces.length === 0) {
+    return;
+}
+
+---
+
+{pieces.map(piece => (
+    <ListRow
+        url={`/music/${piece.categoryId}/${piece.id}`} 
+        label={piece.title}
+        description={piece.subtitle} 
+        secondaryLabel={formatPieceYear(piece)}
+    />
+))}
