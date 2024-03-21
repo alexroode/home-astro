@@ -1,5 +1,6 @@
 ---
 import MusicLayout from "../../../layouts/MusicLayout.astro";
+import PieceDescription from "../../../components/PieceDescription.astro";
 import PiecePurchase from "../../../components/PiecePurchase.astro";
 import PiecePerformances from "../../../components/PiecePerformances.astro";
 
@@ -17,6 +18,7 @@ export async function getStaticPaths() {
 
 const piece = await Music.findPiece(Astro.params.pieceId, Astro.params.categoryId);
 
+
 const { accolades } = piece;
 ---
 
@@ -29,9 +31,7 @@ const { accolades } = piece;
             {accolades && <div class="mb-5"><em set:html={accolades} /></div>}
 
             <PiecePurchase piece={piece} />
-
-            {piece.description && <div></div>}
-
+            <PieceDescription piece={piece} />
             <PiecePerformances piece={piece} />
         </div>
         <div class="col-md-5">
