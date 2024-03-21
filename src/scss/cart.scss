@@ -1,0 +1,11 @@
+.cart-summary {
+    position: fixed;
+    bottom: 0;
+}
+
+.link-danger {
+    color: $danger;
+    &:hover {
+        color: darken($danger, 10%);
+    }
+}

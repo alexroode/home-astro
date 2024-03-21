@@ -1,4 +1,6 @@
 ---
+import "../scss/style.scss";
+
 interface Props {
 	title: string;
 }
@@ -12,12 +14,15 @@ const year = new Date().getFullYear();
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-GHTQJD3YTD"></script>
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GHTQJD3YTD"></script>
 		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
 			gtag('config', 'G-GHTQJD3YTD');
+		</script>
+		<script>
+			import { Collapse, Dropdown, Popover } from "bootstrap";
 		</script>
 		<title>{title} - Alexander Roode</title>
 	</head>
