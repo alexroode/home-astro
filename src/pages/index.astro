@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
-import TestComponent from '../components/react/TestComponent';
+import ContactFormWrapper from '../components/react/ContactFormWrapper.tsx';
 ---
 
 <Layout title="Welcome to Astro.">
@@ -58,12 +58,12 @@ import TestComponent from '../components/react/TestComponent';
 			<Card
 				href="https://astro.build/chat/"
 				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
+				body="Come say hi to our amazing Discord community.  sads ❤️"
 			/>
 		</ul>
 
 		<div>
-			<TestComponent client:load />
+			<ContactFormWrapper recaptchaSiteKey="" client:load />
 		</div>
 	</main>
 </Layout>
