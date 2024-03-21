@@ -1,7 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Music } from "../services/music-service";
+
+const latestWorks = await Music.getLatest(4);
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="">
 	<p>Hello world</p>
 </Layout>

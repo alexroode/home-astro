@@ -1,7 +1,17 @@
 ---
+import ListRow from "../../components/ListRow.astro";
 import MusicLayout from "../../layouts/MusicLayout.astro";
+import { Music } from "../../services/music-service";
+
+const library = await Music.getLibrary();
+const categories = library.categories;
+const title = "Music";
 ---
 
-<MusicLayout title="Music">
-    <h1>Abcd</h1>
+<MusicLayout title={title}>
+    <h1>{title}</h1>
+
+    {categories.map(category => (<>
+        <ListRow url={`/music/${category.id}`} label={category.name} description={category.description} />
+    </>))}
 </MusicLayout>
