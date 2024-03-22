@@ -1,0 +1,21 @@
+---
+import type { Piece } from "../types";
+import { getEntry } from "astro:content";
+
+interface Props {
+    piece: Piece;
+}
+
+const description = await getEntry("pieces", Astro.props.piece.id);
+
+if (!description) {
+    return;
+}
+
+const { Content } = await description.render();
+---
+
+<h2>Notes</h2>
+<div class="text-justify mb-5">
+    <Content />
+</div>

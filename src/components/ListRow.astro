@@ -1,0 +1,16 @@
+---
+interface Props {
+    url: string,
+    label: string,
+    description: string,
+    secondaryLabel?: string
+}
+
+const {url, label, description, secondaryLabel} = Astro.props;
+---
+<a class="text-decoration-none" href={url}>
+    <div class="music-row">
+        <h3>{label}{secondaryLabel ? <span class="piece-year">{secondaryLabel}</span> : undefined}</h3>
+        <span>{description}</span>
+    </div>
+</a>
