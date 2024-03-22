@@ -16,25 +16,6 @@ function mapJsonDate(dateString?: string): moment.Moment | undefined {
     return moment(dateString, "YYYY/MM/DD");
 }
 
-async function loadDescription(piece: any) {
-    /*const filePath = path.join(import.meta.dirname, "pieces", piece.id + ".md");
-    try {
-        const markdown = await readFile(filePath, "utf8");
-        const description = marked(markdown);
-        piece.description = description;
-    } catch {
-        piece.description = "";
-    }*/
-    piece.description = "";
-}
-
-function dateReviver(key: keyof(Piece) | keyof(Performance), value: any) {
-    if (key === "revisionDate" || key === "date") {
-        return mapJsonDate(value);
-    }
-    return value;
-}
-
 export class MusicService {
     private music: MusicLibrary = {
         categories: musicJson.categories,
