@@ -1,7 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import LatestWorks from "../components/LatestWorks.astro";
+import { Image } from 'astro:assets';
+import alex2 from "../images/alex2.jpg";
 ---
 
-<Layout title="Welcome to Astro.">
-	<p>Hello world</p>
+<Layout title="Home">
+	<div class="row">
+		<div class="col-md-6 col-lg-8 mb-4">
+			<p>Alexander Roode is a composer and cellist based in Orange County, California.</p>
+
+			<LatestWorks>
+		</div>
+		<div class="col-md-6 col-lg-4 mb-4">
+			<Image src={alex2} alt="Alexander Roode" class="img-fluid"></Image>
+		</div>
+	</div>
 </Layout>

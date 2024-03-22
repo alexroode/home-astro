@@ -1,0 +1,10 @@
+---
+import { Music } from "../services/music-service";
+import PieceList from "./PieceList.astro";
+
+const latestWorks = await Music.getLatest(4);
+---
+
+<h1>Latest Works</h1>
+
+<PieceList pieces={latestWorks}>

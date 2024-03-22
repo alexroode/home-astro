@@ -1,0 +1,22 @@
+---
+import type { Piece } from '../types';
+
+interface Props {
+    piece: Piece;
+}
+
+const products = Astro.props.piece.products;
+
+---
+
+<h2>Purchase</h2>
+{products && products?.length > 0 && <>
+    <div class="mb-5">
+        {products.map(product => (
+            <p>Add to cart</p>
+        ))}    
+    </div>
+</>}
+{(!products || products.length === 0) && <>
+    <p>To purchase this work, please <a href="/contact">contact Alex</a> directly.</p>
+</>}
