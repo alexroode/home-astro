@@ -1,0 +1,18 @@
+---
+import ContactForm from "../components/react/ContactFormWrapper";
+import Layout from "../layouts/Layout.astro";
+
+const title = "Contact";
+---
+
+<Layout title={title}>
+	<div class="row">
+		<div class="col-md-8">
+            <h1>{title}</h1>
+
+            <p>Please feel free to reach out to Alexander with any comments, questions, or requests.</p>
+
+            <ContactForm recaptchaSiteKey={import.meta.env.RECAPTCHA_SITE_KEY} client:load/>
+		</div>
+	</div>
+</Layout>
