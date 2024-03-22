@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "Cart";
+---
+
+<Layout title={title}>
+	<div class="row">
+		<div class="col-md-8">
+            <h1>{title}</h1>
+
+            <div id="cart-contents" />
+
+            <h2 class="mt-s2">Payment Methods</h2>
+            <p>To pay with card, check out above. If you need to pay with check or purchase order, please
+                <a href="/contact">contact Alex</a> directly.</p>
+                
+            <h2>Delivery</h2>
+            <p>
+                After purchasing, scores and parts will be emailed to you within 72 hours.
+            </p>
+		</div>
+	</div>
+</Layout>
