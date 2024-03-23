@@ -106,7 +106,7 @@ export default () => {
             {errors.message && <div className="invalid-feedback">{errors.message.message}</div>}
         </div>
         
-        <div className="mb-3 mt-6">
+        <div className="mb-3 mt-5">
             <button type="submit" className="btn btn-outline-primary" disabled={isSubmitting}>Submit</button>
         </div>
         
