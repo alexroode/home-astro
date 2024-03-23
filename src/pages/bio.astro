@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from 'astro:assets';
+import alex2 from "../images/alex2.jpg";
+
+const title = "Bio";
+---
+
+<Layout title={title}>
+	<div class="row">
+		<div class="col-md-7 px-s mb-4">
+            <h1>{title}</h1>
+
+            <div class="text-justify">
+                <p>
+                    Alexander Roode is a cellist and self-taught composer based in Orange County, California.
+                    Alex strives to write accessible modern music for traditional ensembles.
+                </p>
+                <p>
+                    Alex was the winner of the 2014 Irvine Valley College Student Composition Competition, the recipient 
+                    of 2020 Barbara Buehlman Prize for Composition presented by the Midwest Clinic, and the winner of 
+                    the 2021 Quadre International Competition Contest, presented by Quadre, the Voice of Four Horns.
+                </p>
+                <p>
+                    Alex has performed a wide range of classical repertoire with the UCLA Symphony Orchestra, the Irvine 
+                    Valley College Symphony Orchestra, and Symphony Irvine.
+                </p>
+                <p>
+                    Alex has a B.S. in Mathematics of Computation from UCLA and works as a software engineer in Irvine, 
+                    California.
+                </p>
+            </div>
+		</div>
+
+        <div class="col-md-5 col-lg-4 offset-lg-1 px-s text-center">            
+			<Image src={alex2} alt="Alexander Roode" class="img-fluid" />
+        </div>
+	</div>
+</Layout>
