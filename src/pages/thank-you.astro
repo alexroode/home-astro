@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+export const prerender = false;
+
+const title = "Thank you";
+const sessionId = Astro.url.searchParams.get("session_id");
+
+if (!sessionId) {
+    return Astro.redirect("/cart");
+}
+---
+
+<Layout title={title}>
+	<div class="row">
+		<div class="col-md-8">
+            <h1>{title}</h1>
+
+            <div id="order-confirmation" />
+
+            <p>Thank you for your order. Your items will be delivered to you by email within 72 hours.</p>
+            
+            <p>If you have questions, please don't hesistate to <a href="/contact">contact Alex</a>.</p>
+		</div>
+	</div>
+</Layout>

@@ -37,5 +37,14 @@ export async function getAllProducts(isProduction: boolean): Promise<Product[]> 
             };
         });
 
+    productsCache = products;
     return products;
+}
+
+let productsCache: Product[] = [];
+export async function getProduct(productId: string): Promise<Product | undefined> {
+    if (productsCache.length === 0) {
+        productsCache = await getAllProducts(import.meta.env.PROD);
+    }
+    return productsCache.find(product => product.id === productId);
 }

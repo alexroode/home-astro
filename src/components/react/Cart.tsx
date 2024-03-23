@@ -42,6 +42,7 @@ const Cart = () => {
             
             await redirectToCheckout(responseJson.sessionId);
         } catch (error) {
+            console.log(error);
             return setError(error);
         } finally {
             return setSubmitting(false);
