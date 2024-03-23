@@ -22,7 +22,6 @@ interface EcommerceAppProps {
 }
 
 export default ({stripePublishableKey}: EcommerceAppProps) => {
-    console.log('rendering');
     return <React.StrictMode>
         <CartProvider
             cartMode="checkout-session"
@@ -36,5 +35,5 @@ export default ({stripePublishableKey}: EcommerceAppProps) => {
             {cartContents ? null : <CartSummary />}
             {orderConfirmation ? <OrderConfirmation /> : null}
         </CartProvider>
-    </React.StrictMode>
+    </React.StrictMode>;
 };

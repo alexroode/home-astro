@@ -16,6 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
     try {
         event = stripe.webhooks.constructEvent(body, signature || "", webhookSecret);
     } catch (err) {
+        console.log("Webhook error", err);
         return new Response(`Webhook Error: ${err}`, { status: 400 });
     }
   

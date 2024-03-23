@@ -31,7 +31,6 @@ export default ({ productId }: ProductProps) => {
     }
 
     useEffect(() => {
-        console.log("loadproduct");
         loadProduct();
     }, []);
 
