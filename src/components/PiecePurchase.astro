@@ -5,7 +5,7 @@ interface Props {
     piece: Piece;
 }
 
-const products = Astro.props.piece.products;
+const products = Astro.props.piece.products?.filter(product => product.prod === import.meta.env.PROD);
 
 ---
 
@@ -13,7 +13,7 @@ const products = Astro.props.piece.products;
 {products && products?.length > 0 && <>
     <div class="mb-5">
         {products.map(product => (
-            <p>Add to cart</p>
+            <div id="add-to-cart" data-product-id={product.priceId}></div>
         ))}    
     </div>
 </>}

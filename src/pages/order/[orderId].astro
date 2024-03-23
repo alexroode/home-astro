@@ -1,0 +1,37 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getOrderDownloads } from "../../utils/order-downloads";
+import { formatFilesize } from "../../utils/formatters";
+
+export const prerender = false;
+
+const title = "Order Downloads";
+const orderId = Astro.params.orderId;
+
+if (!orderId) {
+    return Astro.redirect("/404");
+}
+
+const order = await getOrderDownloads(orderId);
+if (!order) {
+    return Astro.redirect("/404");
+}
+---
+
+<Layout title={title}>
+	<div class="row">
+		<div class="col-md-8">
+            <h1>{title}</h1>
+
+            {order?.isExpired && <p>The download link has expired.</p>}
+
+            {order?.downloads.map((download, index) => <>
+                <div class="bg-gray-100 p-3 mb-3 text-center">
+                    <p class="font-weight-bold mb-0">{download.name}</p>
+                    <p>{formatFilesize(download.size)}</p>
+                    <p><a class="btn btn-primary" href={`/api/order-download?orderId=${order.id}&downloadId=${index + 1}`}>Download</a></p>
+                </div>
+            </>)}
+		</div>
+	</div>
+</Layout>

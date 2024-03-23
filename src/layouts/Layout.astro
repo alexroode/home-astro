@@ -1,5 +1,6 @@
 ---
 import "../scss/style.scss";
+import EcommerceApp from "../components/react/EcommerceApp";
 
 interface Props {
 	title: string;
@@ -72,7 +73,7 @@ const year = new Date().getFullYear();
 				<slot />
 			</div>
 		</main>
-		<!-- Cart app -->
+		<EcommerceApp stripePublishableKey={import.meta.env.STRIPE_PUBLISHABLE_KEY} client:only />
 		<footer class="py-5">
 			<div class="container-lg text-center text-sm">
 				<p class="text-muted">
