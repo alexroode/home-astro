@@ -41,5 +41,8 @@
     "@types/bootstrap": "^5.2.10",
     "@types/config": "^3.3.4",
     "sass": "^1.72.0"
+  },
+  "overrides": {
+    "sharp": "^0.33.2"
   }
 }
