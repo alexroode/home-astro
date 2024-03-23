@@ -25,11 +25,11 @@ stages:
       displayName: 'npm install and build'
 
     - task: CopyFiles@2
-        displayName: 'Copy files to build directory'
-        inputs:
-          contents: |
-            dist/**
-          targetFolder: '$(Pipeline.Workspace)/build'
+      displayName: 'Copy files to build directory'
+      inputs:
+        contents: |
+          dist/**
+        targetFolder: '$(Pipeline.Workspace)/build'
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
