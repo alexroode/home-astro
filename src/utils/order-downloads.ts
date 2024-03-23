@@ -8,9 +8,6 @@ import path from "path";
 import mime from "mime";
 import fs from "fs";
 import { Readable } from "node:stream";
-import {
-    open,
-  } from 'node:fs/promises';
 
 const orderDownloadsCache: {[orderId: string]: OrderDownloads} = {};
 
@@ -88,10 +85,10 @@ export async function getDownload(filename: string): Promise<OrderDownload | und
     };
 }
 
-export async function getDownloadStream(download: OrderDownload) {
+export async function getDownloadStream(download: OrderDownload): Promise<ReadableStream<Uint8Array>> {
     const basePath = config.get<string>("orderDownloadsRootPath");
     const fullPath = path.join(basePath, download.name);
 
-    const handle = await open(fullPath);
-    return handle.readableWebStream();
+    // https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/65542
+    return Readable.toWeb(fs.createReadStream(fullPath)) as ReadableStream<Uint8Array>;
 }
