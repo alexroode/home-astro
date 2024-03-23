@@ -8,5 +8,5 @@ interface ContactFormProps {
 export default ({recaptchaSiteKey}: ContactFormProps) => {
     return <GoogleReCaptchaProvider reCaptchaKey={recaptchaSiteKey}>
         <ContactForm />
-  </GoogleReCaptchaProvider>
+    </GoogleReCaptchaProvider>
 }
