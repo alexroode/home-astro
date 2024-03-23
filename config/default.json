@@ -1,0 +1,15 @@
+{
+    "recaptchaSiteKey": "",
+    "recaptchaSecretKey": "",
+    "mailgunApiKey": "",
+    "mailgunDomain": "",
+    "contactToEmail": "",
+    "stripePublishableKey": "",
+    "stripeSecretKey": "",
+    "stripeWebhookSecret": "",
+    "airtableApiKey": "",
+    "airtableBaseId": "",
+    "airtableOrdersTableName": "",
+    "airtableProductsTableName": "",
+    "orderDownloadsRootPath": ""
+}
