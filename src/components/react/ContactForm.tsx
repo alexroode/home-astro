@@ -29,7 +29,6 @@ const emailFieldRules = {
 
 const unexpectedErrorMessage = "An error occurred. Please try again later.";
 
-
 export default () => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitted } } = useForm<ContactRequest>();
   const { executeRecaptcha } = useGoogleReCaptcha();

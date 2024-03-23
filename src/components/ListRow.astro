@@ -9,7 +9,7 @@ interface Props {
 const {url, label, description, secondaryLabel} = Astro.props;
 ---
 <a class="text-decoration-none" href={url}>
-    <div class="music-row">
+    <div class="music-row rounded">
         <h3>{label}{secondaryLabel ? <span class="piece-year">{secondaryLabel}</span> : undefined}</h3>
         <span>{description}</span>
     </div>
