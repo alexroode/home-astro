@@ -7,4 +7,8 @@ const latestWorks = await Music.getLatest(4);
 
 <h1>Latest Works</h1>
 
-<PieceList pieces={latestWorks}>
+<PieceList pieces={latestWorks} />
+
+<p class="mt-4">
+    <a class="btn btn-outline-primary" href="/music">View All</a>
+</p>
