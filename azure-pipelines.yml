@@ -28,7 +28,8 @@ stages:
       displayName: 'Copy files to build directory'
       inputs:
         contents: |
-          dist/**
+          dist/server/**
+          dist/client/**
           node_modules/**
         targetFolder: '$(Pipeline.Workspace)/build'
 
