@@ -48,7 +48,7 @@ stages:
         artifactName: 'home-astro'
 
 - stage: Deploy
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
     - deployment: VMDeploy
       displayName: 'Deploy'
@@ -70,4 +70,4 @@ stages:
                 displayName: 'Restart application'
                 inputs:
                   targetType: 'inline'
-                  script: pm2 restart "Home Dev"
+                  script: pm2 restart "Home"
