@@ -8,7 +8,7 @@ export const GET: APIRoute = async ({ params }) => {
         return new Response(null, { status: 404 });
     }
 
-    const product = getProduct(params.productId);
+    const product = await getProduct(params.productId);
 
     if (!product) {
         return new Response(null, { status: 404 });
