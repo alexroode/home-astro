@@ -4,6 +4,8 @@ import type Stripe from "stripe";
 import { getStripeApi } from "../../utils/product-utils";
 import { createAirtableOrder } from "../../utils/airtable";
 
+export const prerender = false;
+
 const webhookSecret = config.get<string>("stripeWebhookSecret");
 
 export const POST: APIRoute = async ({ request }) => {

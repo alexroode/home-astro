@@ -1,0 +1,73 @@
+trigger:
+- master
+
+variables:
+- group: home-astro-prod
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    displayName: Build
+
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - task: UseNode@1
+      inputs:
+        version: '20.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm install
+        npm run build
+      displayName: 'npm install and build'
+
+    - task: CopyFiles@2
+      displayName: 'Copy files to build directory'
+      inputs:
+        contents: |
+          dist/**
+          node_modules/**
+        targetFolder: '$(Pipeline.Workspace)/build'
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(Pipeline.Workspace)/build'
+        archiveType: 'tar'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar.gz'
+        replaceExistingArchive: true
+        includeRootFolder: false
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish artifact'
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar.gz'
+        artifactName: 'home-astro'
+
+- stage: Deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+    - deployment: VMDeploy
+      displayName: 'Deploy'
+      environment:
+        name: 'production'
+        resourceType: VirtualMachine
+      workspace:
+        clean: all
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: Bash@3
+                displayName: 'Run deploy script'
+                inputs:
+                  filePath: '$(deploy_script_path)'
+
+              - task: Bash@3
+                displayName: 'Restart application'
+                inputs:
+                  targetType: 'inline'
+                  script: pm2 restart "Home"
