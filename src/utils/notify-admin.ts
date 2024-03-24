@@ -17,6 +17,7 @@ export async function notifyAdmin(contactRequest: ContactRequest): Promise<Respo
         `<strong>Email</strong>: ${contactRequest.email}<br/>` +
         `<strong>Message</strong>: <br/><p>${contactRequest.message}</p>`
     };
+    console.log(message);
   
     try {
         await mailgunClient.messages.create(import.meta.env.MAILGUN_DOMAIN, message);
