@@ -29,6 +29,7 @@ stages:
       inputs:
         contents: |
           dist/**
+          node_modules/**
         targetFolder: '$(Pipeline.Workspace)/build'
 
     - task: ArchiveFiles@2
