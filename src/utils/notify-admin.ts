@@ -3,7 +3,7 @@ import Mailgun from "mailgun.js";
 import config from "config";
 import formData from "form-data";
 
-const mailgunApiKey = config.get<string>("mailgunApiKey")
+const mailgunApiKey = config.get<string>("mailgunApiKey");
 
 export async function notifyAdmin(contactRequest: ContactRequest): Promise<Response> {
     const mailgun = new Mailgun(formData);
@@ -17,7 +17,6 @@ export async function notifyAdmin(contactRequest: ContactRequest): Promise<Respo
         `<strong>Email</strong>: ${contactRequest.email}<br/>` +
         `<strong>Message</strong>: <br/><p>${contactRequest.message}</p>`
     };
-    console.log(message);
   
     try {
         await mailgunClient.messages.create(import.meta.env.MAILGUN_DOMAIN, message);

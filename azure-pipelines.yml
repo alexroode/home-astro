@@ -20,6 +20,10 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
+        printenv
+      displayName: 'printenv'
+
+    - script: |
         npm install
         npm run build
       displayName: 'npm install and build'
