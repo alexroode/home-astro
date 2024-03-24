@@ -43,8 +43,8 @@ export class MusicService {
     async getInCategory(categoryId: string): Promise<Piece[]> {
         const library = await this.getLibrary();
         const pieces = library.pieces
-        .filter(p => p.categoryId === categoryId)
-        .sort(this.sortPieces);
+            .filter(p => p.categoryId === categoryId)
+            .sort(this.sortPieces);
         return pieces;
     }
     
@@ -69,8 +69,8 @@ export class MusicService {
     async getLatest(count: number): Promise<Piece[]> {
         const library = await this.getLibrary();
         return [...library.pieces]
-        .sort(this.sortPieces)
-        .slice(0, count);
+            .sort(this.sortPieces)
+            .slice(0, count);
     }
 }
 
