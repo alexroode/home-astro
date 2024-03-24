@@ -20,17 +20,6 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        echo "
-        STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY
-        CONTACT_TO_EMAIL=$CONTACT_TO_EMAIL
-        RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
-        MAILGUN_DOMAIN=$MAILGUN_DOMAIN
-        " >> .env
-
-    - script: |
-        cat .env
-
-    - script: |
         npm install
         npm run build
       displayName: 'npm install and build'
@@ -39,8 +28,7 @@ stages:
       displayName: 'Copy files to build directory'
       inputs:
         contents: |
-          dist/server/**
-          dist/client/**
+          dist/**
           node_modules/**
         targetFolder: '$(Pipeline.Workspace)/build'
 

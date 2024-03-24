@@ -4,13 +4,15 @@ import config from "config";
 import formData from "form-data";
 
 const mailgunApiKey = config.get<string>("mailgunApiKey");
+const contactToEmail = config.get<string>("contactToEmail");
+const mailgunDomain = config.get<string>("mailgunDomain");
 
 export async function notifyAdmin(contactRequest: ContactRequest): Promise<Response> {
     const mailgun = new Mailgun(formData);
     const mailgunClient = mailgun.client({ key: mailgunApiKey, username: "api" });
   
     const message = {
-        to: [import.meta.env.CONTACT_TO_EMAIL],
+        to: [contactToEmail],
         from: "Contact Form <contact@alexander-roode.com>",
         subject: "Contact Form Submission",
         html: `<strong>Name</strong>: ${contactRequest.name}<br/>` +
@@ -19,7 +21,7 @@ export async function notifyAdmin(contactRequest: ContactRequest): Promise<Respo
     };
   
     try {
-        await mailgunClient.messages.create(import.meta.env.MAILGUN_DOMAIN, message);
+        await mailgunClient.messages.create(mailgunDomain, message);
 
         return new Response(null, { status: 204 });
     } catch (error) {
