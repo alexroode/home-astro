@@ -2,7 +2,7 @@ trigger:
 - master
 
 variables:
-- group: prod
+- group: home-astro-prod
 
 stages:
 - stage: Build
