@@ -20,8 +20,15 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        printenv
-      displayName: 'printenv'
+        echo "
+        STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY
+        CONTACT_TO_EMAIL=$CONTACT_TO_EMAIL
+        RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
+        MAILGUN_DOMAIN=$MAILGUN_DOMAIN
+        " >> .env
+
+    - script: |
+        cat .env
 
     - script: |
         npm install
