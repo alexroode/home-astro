@@ -45,4 +45,29 @@ stages:
       displayName: 'Publish artifact'
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar.gz'
-        artifactName: 'drop'
+        artifactName: 'home-astro'
+
+- stage: Deploy
+  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+    - deployment: VMDeploy
+      displayName: 'Deploy'
+      environment:
+        name: 'production'
+        resourceType: VirtualMachine
+      workspace:
+        clean: all
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: Bash@3
+                displayName: 'Run deploy script'
+                inputs:
+                  filePath: '$(deploy_script_path)'
+
+              - task: Bash@3
+                displayName: 'Restart application'
+                inputs:
+                  targetType: 'inline'
+                  script: pm2 restart "Home Dev"
