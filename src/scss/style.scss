@@ -110,59 +110,6 @@ h1 {
     text-align: justify;
 }
 
-/* Header */
-
-.main-title-container {
-    padding: 0.5 * $grid-gutter-width;
-    position: relative;
-
-    h1 {
-        font-size: 1.6rem;
-        line-height: 1;
-    }
-
-    h2 {
-        font-size: 1.2rem;
-        line-height: 1.2;
-        text-transform: uppercase;
-    }
-
-    @media only screen and (min-width: 440px) {
-        h1 {
-            font-size: 2.6rem;
-        }
-
-        h2 {
-            font-size: 1.7rem;
-        }
-    }
-
-    @include media-breakpoint-up(md) {
-        h1 {
-            font-size: 4rem;
-            line-height: 0.8;
-        }
-        h2 {
-            font-size: 2.4rem;
-        }
-    }
-
-    .navbar-toggler {
-        position: absolute;
-        bottom: 50%;
-        transform: translateY(50%);
-        right: $grid-gutter-width;
-        margin: 0;
-    }
-}
-
-.nav {
-    .nav-link {
-        &:hover, &:focus {
-            background-color: $secondary;
-        }
-    }
-}
 
 /* Category */
 
