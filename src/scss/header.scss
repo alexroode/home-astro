@@ -43,6 +43,20 @@ header {
 .navbar-toggler {
     position: relative;
     border: none;
+
+    @media (hover: hover) {
+        &:hover {
+            span {
+                background-color: $secondary;
+            }
+        }
+    }
+    &:active {
+        span {
+            background-color: $secondary;
+
+        }
+    }
 }
 
 .navbar-toggler:focus,
