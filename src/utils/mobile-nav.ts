@@ -6,11 +6,12 @@ window.addEventListener("DOMContentLoaded", function() {
         return;
     }
     
-    mainNav.addEventListener("show.bs.collapse", function () {
+    mainNav.addEventListener("show.bs.collapse", () => {
         nav.classList.add("nav-expanded");
     });
-    mainNav.addEventListener("hide.bs.collapse", function (e) {
-        if (e.target !== this) {
+    
+    mainNav.addEventListener("hide.bs.collapse", (e) => {
+        if (e.target !== mainNav) {
             return;
         }
         nav.classList.remove("nav-expanded");
