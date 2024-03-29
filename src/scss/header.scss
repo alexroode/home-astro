@@ -14,10 +14,28 @@ header {
 
 .navbar-nav {
     .nav-link {
-        padding-left: $grid-gutter-width;
-        padding-right: $grid-gutter-width;
+        padding-left: $grid-gutter-width * 0.5;
+        padding-right: $grid-gutter-width * 0.5;
         transition: color ease-in-out 0.15s, background-color ease-in-out 0.15s;
     }
+}
+
+#fixed-top-nav {
+    @include media-breakpoint-down(md) {        
+        &.nav-expanded {
+            @include media-breakpoint-down(md) {
+                position: fixed;
+                overflow-y: scroll;
+                inset: 0;
+            }
+        }
+    }
+
+    > :last-child {
+        flex-grow: 1;
+    }
+
+    z-index: 1;
 }
 
 /* Navbar toggler animation */
@@ -25,6 +43,20 @@ header {
 .navbar-toggler {
     position: relative;
     border: none;
+
+    @media (hover: hover) {
+        &:hover {
+            span {
+                background-color: $secondary;
+            }
+        }
+    }
+    &:active {
+        span {
+            background-color: $secondary;
+
+        }
+    }
 }
 
 .navbar-toggler:focus,
