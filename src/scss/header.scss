@@ -20,6 +20,18 @@ header {
     }
 }
 
+#fixed-top-nav {
+    @include media-breakpoint-down(md) {        
+        &.nav-expanded {
+            @include media-breakpoint-down(md) {
+                position: fixed;
+                overflow-y: scroll;
+                inset: 0;
+            }
+        }
+    }
+}
+
 /* Navbar toggler animation */
 
 .navbar-toggler {
