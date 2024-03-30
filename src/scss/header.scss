@@ -80,13 +80,10 @@ header {
             inset: 0;
 
             > :last-child {
+                flex-grow: 1;
                 padding-bottom: 2.5rem;
             }
         }
-    }
-
-    > :last-child {
-        flex-grow: 1;
     }
 
     z-index: 2000;
