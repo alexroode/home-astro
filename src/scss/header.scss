@@ -85,9 +85,10 @@ header {
 
     > :last-child {
         flex-grow: 1;
+        padding-bottom: 2.5rem;
     }
 
-    z-index: 1;
+    z-index: 2000;
 }
 
 /* Navbar toggler animation */

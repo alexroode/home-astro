@@ -53,7 +53,6 @@ $theme-colors: map-merge($theme-colors, (
     "dark": #000
 ));
 
-
 $spacers: map-merge($spacers, (
   6: ($spacer * 5),
   s: $grid-gutter-width,
