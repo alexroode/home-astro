@@ -75,17 +75,18 @@ header {
 #fixed-top-nav {
     @include media-breakpoint-down(md) {        
         &.nav-expanded {
-            @include media-breakpoint-down(md) {
-                position: fixed;
-                overflow-y: scroll;
-                inset: 0;
+            position: fixed;
+            overflow-y: scroll;
+            inset: 0;
+
+            > :last-child {
+                padding-bottom: 2.5rem;
             }
         }
     }
 
     > :last-child {
         flex-grow: 1;
-        padding-bottom: 2.5rem;
     }
 
     z-index: 2000;
