@@ -9,7 +9,7 @@ interface ErrorMessageProps {
 export default ({ error, errorMessage, onRetry }: ErrorMessageProps) => {
     useEffect(() => {
         console.log(error);
-    }, ["error"]);
+    }, [error]);
 
     if (!error) {
         return null;

@@ -6,5 +6,5 @@ It seems inevitable that the town would become the location of a number of signi
 
 *Laguna* is an homage to a number of these moments throughout my adolescence and early adulthood.
 
-For its premiere in December 2023, I revised the piece with a new ending, a short cello cadenza, and a an embellished
+For its premiere in December 2023, I revised the piece with a new ending, a short cello cadenza, and an embellished
 piano accompaniment.
