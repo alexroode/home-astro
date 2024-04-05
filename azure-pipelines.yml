@@ -45,7 +45,7 @@ stages:
       displayName: 'Publish artifact'
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar.gz'
-        artifactName: 'home-astro'
+        artifactName: 'home-astro-$(Build.SourceBranchName)'
 
 - stage: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
