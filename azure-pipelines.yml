@@ -4,7 +4,7 @@ trigger:
 variables:
   - group: home-astro-prod
   - name: branchName
-    value:  $[coalesce(variables['System.PullRequest.SourceBranchName'], 'master')]
+    value:  $[coalesce(variables['System.PullRequest.SourceBranch'], 'master')]
 
 stages:
 - stage: Build
