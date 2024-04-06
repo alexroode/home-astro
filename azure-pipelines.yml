@@ -1,14 +1,14 @@
 trigger:
 - master
 
-name: $[ variables['branchName'] ]
-
 variables:
 - group: home-astro-prod
-  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/') }}:
-    branchName: $[ variables['Build.SourceBranchName'] ]
-  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/') }}:
-    branchName: $[ variables['System.PullRequest.SourceBranchName'] ]
+${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/') }}:
+  - name: branchName
+    value: $[ variables['Build.SourceBranchName'] ]
+${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/') }}:
+  - name: branchName
+    value: $[ variables['System.PullRequest.SourceBranchName'] ]
 
 stages:
 - stage: Build
