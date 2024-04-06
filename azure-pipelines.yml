@@ -2,11 +2,9 @@ trigger:
 - master
 
 variables:
-  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/') }}:
-    - branchName: $[ variables['Build.SourceBranchName'] ]
-  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/') }}:
-    - branchName: $[ variables['System.PullRequest.SourceBranchName'] ]
   - group: home-astro-prod
+  - name: branchName
+    value:  $[coalesce(variables['System.PullRequest.SourceBranchName'], 'master')]
 
 stages:
 - stage: Build
