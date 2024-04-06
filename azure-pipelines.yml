@@ -3,6 +3,12 @@ trigger:
 
 variables:
 - group: home-astro-prod
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/') }}:
+    branchName: $[ variables['Build.SourceBranchName'] ]
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/') }}:
+    branchName: $[ variables['System.PullRequest.SourceBranchName'] ]
+
+variables:
 
 stages:
 - stage: Build
@@ -45,7 +51,13 @@ stages:
       displayName: 'Publish artifact'
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar.gz'
-        artifactName: 'home-astro-$(Build.SourceBranchName)'
+        artifactName: 'home-astro-$(branchName)'
+
+    - script: |
+        npm install
+        npm run build
+      displayName: 'npm install and build'
+
 
 - stage: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
