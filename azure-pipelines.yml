@@ -8,8 +8,6 @@ variables:
   ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/') }}:
     branchName: $[ variables['System.PullRequest.SourceBranchName'] ]
 
-variables:
-
 stages:
 - stage: Build
   jobs:
