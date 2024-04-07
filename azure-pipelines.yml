@@ -3,8 +3,8 @@ trigger:
 
 variables:
   - group: home-astro-prod
-  - name: branchName
-    value:  $[coalesce(variables['System.PullRequest.SourceBranch'], replace(variables['Build.SourceBranch'], 'refs/heads/', ''), 'master')]
+  - name: branch_name
+    value: $[coalesce(variables['System.PullRequest.SourceBranch'], replace(variables['Build.SourceBranch'], 'refs/heads/', ''), 'master')]
 
 stages:
 - stage: Build
@@ -47,13 +47,32 @@ stages:
       displayName: 'Publish artifact'
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar.gz'
-        artifactName: 'home-astro-$(branchName)'
+        artifactName: 'home-astro-$(branch_name)'
 
     - script: |
         npm install
         npm run build
       displayName: 'npm install and build'
 
+- stage: Deploy Staging
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+    - deployment: VMDeploy
+      displayName: 'Deploy'
+      environment:
+        name: 'production'
+        resourceType: VirtualMachine
+      workspace:
+        clean: all
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: Bash@3
+                displayName: 'Run deploy script'
+                inputs:
+                  arguments: '$(branch_name)'
+                  filePath: '$(deploy_script_path_staging)'
 
 - stage: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -73,9 +92,3 @@ stages:
                 displayName: 'Run deploy script'
                 inputs:
                   filePath: '$(deploy_script_path)'
-
-              - task: Bash@3
-                displayName: 'Restart application'
-                inputs:
-                  targetType: 'inline'
-                  script: pm2 restart "Home"
