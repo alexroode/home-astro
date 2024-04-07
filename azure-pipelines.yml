@@ -54,7 +54,7 @@ stages:
         npm run build
       displayName: 'npm install and build'
 
-- stage: Deploy Staging
+- stage: Deploy_Staging
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
     - deployment: VMDeploy
