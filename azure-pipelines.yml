@@ -56,6 +56,7 @@ stages:
 
 - stage: Deploy_Staging
   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+  dependsOn: Build
   jobs:
     - deployment: VMDeploy
       displayName: 'Deploy Staging'
@@ -76,6 +77,7 @@ stages:
 
 - stage: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  dependsOn: Build
   jobs:
     - deployment: VMDeploy
       displayName: 'Deploy Prod'
