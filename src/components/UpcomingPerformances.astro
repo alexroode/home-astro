@@ -1,0 +1,38 @@
+---
+import { Music } from "../services/music-service";
+import { formatDate } from "../utils/date-utils";
+
+const upcomingPerformances = await Music.getUpcomingPerformances();
+
+if (!upcomingPerformances || upcomingPerformances.length === 0) {
+    return;
+}
+
+---
+
+<h2 class="mt-s">Upcoming Performances</h2>
+
+{upcomingPerformances.map(pair => {
+    const performance = pair.performance;
+    return <div class="performance mt-4 mb-2">
+        <p class="fw-bold">
+            {formatDate(performance.date)}
+            {performance.worldPremiere ? " (World Premiere)" : null}
+        </p>
+
+        <div class="row d-md-block d-lg-flex justify-content-between flex-sm-nowrap">
+            <ul class="col-lg flex-fill list-unstyled">
+                {performance.performers?.map(performer => (<li>{performer}</li>))}
+            </ul>
+            <ul class="col-lg flex-fill list-unstyled">
+                <li class="text-sm-end text-md-start text-lg-end">{performance.venue}</li>
+                <li class="text-sm-end text-md-start text-lg-end">{performance.city}</li>
+            </ul>
+        </div>
+
+        {performance.youtubeVideoId ? 
+            <div class="embed-container">
+                <iframe src={`https://www.youtube.com/embed/${performance.youtubeVideoId}`} frameborder="0" allowfullscreen></iframe>
+            </div> : null}
+    </div>
+})}

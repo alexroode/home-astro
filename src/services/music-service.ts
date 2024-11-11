@@ -1,5 +1,5 @@
 import moment from "moment";
-import type { MusicLibrary, Piece, Category } from "../types.js";
+import type { MusicLibrary, Piece, Category, Performance } from "../types.js";
 import musicJson from "./music.json";
 
 function notFound(): Promise<any> {
@@ -71,6 +71,17 @@ export class MusicService {
         return [...library.pieces]
             .sort(this.sortPieces)
             .slice(0, count);
+    }
+
+    async getUpcomingPerformances(): Promise<{ piece: Piece, performance: Performance}[]> {
+        const library = await this.getLibrary();
+        const now = moment();
+
+        return library.pieces.flatMap(piece => piece.performances
+            ?.filter(performance => performance.date.diff(now) > 0)
+            .map(performance => ({ performance, piece })) 
+            || []
+        );
     }
 }
 

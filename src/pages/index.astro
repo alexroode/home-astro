@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import LatestWorks from "../components/LatestWorks.astro";
 import { Image } from "astro:assets";
 import alex2 from "../images/alex2.jpg";
+import UpcomingPerformances from "../components/UpcomingPerformances.astro";
 ---
 
 <Layout title="Home">
@@ -11,6 +12,7 @@ import alex2 from "../images/alex2.jpg";
 			<p>Alexander Roode is a composer and cellist based in Orange County, California.</p>
 
 			<LatestWorks />
+			<UpcomingPerformances />
 		</div>
 		<div class="col-md-6 col-lg-4 mb-4">
 			<Image src={alex2} alt="Alexander Roode" class="img-fluid rounded-4" />
