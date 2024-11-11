@@ -1,0 +1,24 @@
+---
+import type { Performance } from "../types";
+
+interface Props {
+    performance: Performance;
+}
+
+const { performance } = Astro.props;
+
+if (!performance) {
+    return;
+}
+
+---
+
+<div class="row d-md-block d-lg-flex justify-content-between flex-sm-nowrap">
+    <ul class="col-lg flex-fill list-unstyled">
+        {performance.performers?.map(performer => (<li>{performer}</li>))}
+    </ul>
+    <ul class="col-lg flex-fill list-unstyled">
+        <li class="text-sm-end text-md-start text-lg-end">{performance.venue}</li>
+        <li class="text-sm-end text-md-start text-lg-end">{performance.city}</li>
+    </ul>
+</div>

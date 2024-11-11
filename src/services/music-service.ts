@@ -75,7 +75,7 @@ export class MusicService {
 
     async getUpcomingPerformances(): Promise<{ piece: Piece, performance: Performance}[]> {
         const library = await this.getLibrary();
-        const now = moment();
+        const now = moment().subtract(1, 'day');
 
         return library.pieces.flatMap(piece => piece.performances
             ?.filter(performance => performance.date.diff(now) > 0)
