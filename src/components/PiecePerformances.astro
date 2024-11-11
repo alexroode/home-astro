@@ -1,6 +1,6 @@
 ---
 import type { Piece } from '../types';
-import { formatDate } from '../utils/date-utils';
+import PerformanceList from './PerformanceList.astro';
 
 interface Props {
     piece: Piece;
@@ -8,33 +8,12 @@ interface Props {
 
 const { piece } = Astro.props;
 
-if (!piece.performances || piece.performances.length === 0) {
+if (!piece.performances) {
     return;
 }
+
 ---
 
 <h2>Performances</h2>
 
-{piece.performances.map(performance => (
-    <div class="performance mt-4 mb-2">
-        <p class="fw-bold">
-            {performance.worldPremiere ? "World Premiere, " : null}
-            {formatDate(performance.date)}
-        </p>
-
-        <div class="row d-md-block d-lg-flex justify-content-between flex-sm-nowrap">
-            <ul class="col-lg flex-fill list-unstyled">
-                {performance.performers?.map(performer => (<li>{performer}</li>))}
-            </ul>
-            <ul class="col-lg flex-fill list-unstyled">
-                <li class="text-sm-end text-md-start text-lg-end">{performance.venue}</li>
-                <li class="text-sm-end text-md-start text-lg-end">{performance.city}</li>
-            </ul>
-        </div>
-
-        {performance.youtubeVideoId ? 
-            <div class="embed-container">
-                <iframe src={`https://www.youtube.com/embed/${performance.youtubeVideoId}`} frameborder="0" allowfullscreen></iframe>
-            </div> : null}
-    </div>
-))}
+<PerformanceList performances={piece.performances} />

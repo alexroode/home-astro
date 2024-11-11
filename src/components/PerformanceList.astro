@@ -1,0 +1,34 @@
+---
+import type { Performance } from '../types';
+import { formatDate } from '../utils/date-utils';
+import PerformanceDetails from './PerformanceDetails.astro';
+
+interface Props {
+    performances: Performance[];
+}
+
+const { performances } = Astro.props;
+
+const sortedPerformances = performances?.toSorted((a, b) => b.date.diff(a.date));
+
+if (!sortedPerformances || sortedPerformances.length === 0) {
+    return;
+}
+
+---
+
+{performances.map(performance => (
+    <div class="performance mt-4 mb-2">
+        <p class="fw-bold">
+            {formatDate(performance.date)}
+            {performance.worldPremiere ? " (World Premiere)" : null}
+        </p>
+
+        <PerformanceDetails performance={performance} />
+        
+        {performance.youtubeVideoId ? 
+            <div class="embed-container">
+                <iframe src={`https://www.youtube.com/embed/${performance.youtubeVideoId}`} frameborder="0" allowfullscreen></iframe>
+            </div> : null}
+    </div>
+))}

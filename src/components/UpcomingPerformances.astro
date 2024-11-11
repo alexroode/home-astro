@@ -1,0 +1,29 @@
+---
+import { Music } from "../services/music-service";
+import { formatDate } from "../utils/date-utils";
+import PerformanceDetails from "./PerformanceDetails.astro";
+
+const upcomingPerformances = await Music.getUpcomingPerformances();
+
+if (!upcomingPerformances || upcomingPerformances.length === 0) {
+    return;
+}
+
+---
+
+<h2 class="mt-s">Upcoming Performances</h2>
+
+{upcomingPerformances.map(pair => {
+    const performance = pair.performance;
+    const piece = pair.piece;
+    return <div class="performance mt-4 mb-2">
+        <p>
+            <a href={`/music/${piece.categoryId}/${piece.id}`}><em>{piece.title}</em></a>
+            {performance.worldPremiere ? " (World Premiere)" : null}
+        </p>
+        <p class="fw-bold">
+            {formatDate(performance.date)}
+        </p>
+        <PerformanceDetails performance={performance} />
+    </div>
+})}
