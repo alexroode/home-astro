@@ -456,6 +456,18 @@
                     "name": "Score and Parts (PDF)",
                     "prod": true
                 }
+            ],
+            "performances": [
+                {
+                    "date": "2025/03/01",
+                    "venue": "Irvine Valley College",
+                    "city": "Irvine, CA",
+                    "worldPremiere": true,
+                    "performers": [
+                        "Symphonic Winds of the Pacific",
+                        "Dr. Stephen Rochford, conductor"
+                    ]
+                }
             ]
         },
         {
@@ -512,7 +524,8 @@
                     "performers": [
                         "Keller High School Wind Ensemble",
                         "David Bertman, conductor"
-                    ]
+                    ],
+                    "youtubeVideoId": "_X60RqnBZlg"
                 },
                 {
                     "date": "2022/06/25",
@@ -521,6 +534,15 @@
                     "performers": [
                         "Queensland Wind Orchestra",
                         "Prof. Rob McWilliams, conductor"
+                    ]
+                },
+                {
+                    "date": "2024/11/10",
+                    "venue": "California Institute of Technology",
+                    "city": "Pasadena, CA",
+                    "performers": [
+                        "Symphonic Winds of the Pacific",
+                        "Dr. Stephen Rochford, conductor"
                     ]
                 }
             ],
