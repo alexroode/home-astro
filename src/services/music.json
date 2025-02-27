@@ -876,6 +876,39 @@
                     "prod": true
                 }
             ]
+        },
+        {
+            "categoryId": "solo",
+            "id": "a-level-head",
+            "instrumentation": "Clarinet, piano",
+            "subtitle": "for Clarinet and Piano",
+            "title": "A Level Head",
+            "date": "2024/06/19",
+            "duration": 540,
+            "scores": [
+                {
+                    "url": "https://media.alexander-roode.com/scores/a-level-head.pdf",
+                    "title": "Full Score"
+                }
+            ],
+            "audio": [
+                {
+                    "url": "https://media.alexander-roode.com/audio/a-level-head.mp3",
+                    "title": "MIDI Mockup"
+                }
+            ],
+            "products": [
+                {
+                    "priceId": "price_1QwHzYJa80SlWh2bq7tJDWpi",
+                    "name": "Complete Parts (PDF)",
+                    "prod": false
+                },
+                {
+                    "priceId": "price_1QwI07Ja80SlWh2besSsOd11",
+                    "name": "Complete Parts (PDF)",
+                    "prod": true
+                }
+            ]
         }
     ]
 }
