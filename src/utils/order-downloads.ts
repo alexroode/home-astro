@@ -2,7 +2,7 @@ import moment from "moment";
 import type { OrderDownload, OrderDownloads } from "../types";
 import { getAirtableBase, getAirtableOrder, getAirtableProducts } from "./airtable";
 import { isDateInPast } from "./date-utils";
-import config from "config";
+import { ORDER_DOWNLOADS_ROOT_PATH } from "astro:env/server";
 import { readdir, stat } from "fs/promises";
 import path from "path";
 import mime from "mime";
@@ -68,14 +68,13 @@ export async function getOrderDownloads(orderId: string): Promise<OrderDownloads
 }
 
 export async function getDownload(filename: string): Promise<OrderDownload | undefined> {
-    const basePath = config.get<string>("orderDownloadsRootPath");
-    const files = await readdir(basePath);
+    const files = await readdir(ORDER_DOWNLOADS_ROOT_PATH);
     
     if (files.indexOf(filename) < 0) {
         return undefined;
     }
     
-    const stats = await stat(path.join(basePath, filename));
+    const stats = await stat(path.join(ORDER_DOWNLOADS_ROOT_PATH, filename));
     const mimeType = mime.getType(filename)!;
     
     return {
@@ -86,8 +85,7 @@ export async function getDownload(filename: string): Promise<OrderDownload | und
 }
 
 export async function getDownloadStream(download: OrderDownload): Promise<ReadableStream<Uint8Array>> {
-    const basePath = config.get<string>("orderDownloadsRootPath");
-    const fullPath = path.join(basePath, download.name);
+    const fullPath = path.join(ORDER_DOWNLOADS_ROOT_PATH, download.name);
 
     // https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/65542
     return Readable.toWeb(fs.createReadStream(fullPath)) as ReadableStream<Uint8Array>;

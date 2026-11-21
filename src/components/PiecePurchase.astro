@@ -1,11 +1,12 @@
 ---
 import type { Piece } from '../types';
+import { STRIPE_PUBLISHABLE_KEY } from "astro:env/client";
 
 interface Props {
     piece: Piece;
 }
 
-const isStripeLive = import.meta.env.STRIPE_PUBLISHABLE_KEY?.startsWith("pk_live_") ?? false;
+const isStripeLive = STRIPE_PUBLISHABLE_KEY.startsWith("pk_live_");
 const products = Astro.props.piece.products?.filter(product => product.prod === isStripeLive);
 
 ---
