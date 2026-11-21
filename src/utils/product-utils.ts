@@ -1,10 +1,10 @@
 import { Stripe } from "stripe";
-import config from "config";
+import { STRIPE_SECRET_KEY } from "astro:env/server";
 import { Music } from "../services/music-service.js"
 import type { Product } from "../types.js";
 
 export function getStripeApi() {
-    return new Stripe(config.get<string>("stripeSecretKey"), {
+    return new Stripe(STRIPE_SECRET_KEY, {
         apiVersion: "2023-10-16",
     });
 }
@@ -44,7 +44,7 @@ export async function getAllProducts(isProduction: boolean): Promise<Product[]> 
 let productsCache: Product[] = [];
 export async function getProduct(productId: string): Promise<Product | undefined> {
     if (productsCache.length === 0) {
-        const isStripeLive = config.get<string>("stripeSecretKey").startsWith("sk_live_");
+        const isStripeLive = STRIPE_SECRET_KEY.startsWith("sk_live_");
         productsCache = await getAllProducts(isStripeLive);
     }
     return productsCache.find(product => product.id === productId);

@@ -1,6 +1,7 @@
 ---
 import "../scss/style.scss";
 import EcommerceApp from "../components/react/EcommerceApp";
+import { STRIPE_PUBLISHABLE_KEY } from "astro:env/client";
 
 interface Props {
 	title: string;
@@ -75,7 +76,7 @@ const year = new Date().getFullYear();
 				<slot />
 			</div>
 		</main>
-		<EcommerceApp stripePublishableKey={import.meta.env.STRIPE_PUBLISHABLE_KEY} client:only />
+		<EcommerceApp stripePublishableKey={STRIPE_PUBLISHABLE_KEY} client:only />
 		<footer class="py-5">
 			<div class="container-lg text-center text-sm">
 				<p class="text-muted">

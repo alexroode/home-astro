@@ -17,7 +17,6 @@ ENV NODE_ENV=production HOST=0.0.0.0 PORT=4321
 COPY --from=build /app/package.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
-COPY config/default.json config/custom-environment-variables.json ./config/
 USER node
 EXPOSE 4321
 CMD ["node", "dist/server/entry.mjs"]

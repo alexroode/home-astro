@@ -1,18 +1,14 @@
 import type { ContactRequest } from "../types";
 import Mailgun from "mailgun.js";
-import config from "config";
 import formData from "form-data";
-
-const mailgunApiKey = config.get<string>("mailgunApiKey");
-const contactToEmail = config.get<string>("contactToEmail");
-const mailgunDomain = config.get<string>("mailgunDomain");
+import { MAILGUN_API_KEY, CONTACT_TO_EMAIL, MAILGUN_DOMAIN } from "astro:env/server";
 
 export async function notifyAdmin(contactRequest: ContactRequest): Promise<Response> {
     const mailgun = new Mailgun(formData);
-    const mailgunClient = mailgun.client({ key: mailgunApiKey, username: "api" });
+    const mailgunClient = mailgun.client({ key: MAILGUN_API_KEY, username: "api" });
   
     const message = {
-        to: [contactToEmail],
+        to: [CONTACT_TO_EMAIL],
         from: "Contact Form <contact@alexander-roode.com>",
         subject: "Contact Form Submission",
         html: `<strong>Name</strong>: ${contactRequest.name}<br/>` +
@@ -21,7 +17,7 @@ export async function notifyAdmin(contactRequest: ContactRequest): Promise<Respo
     };
   
     try {
-        await mailgunClient.messages.create(mailgunDomain, message);
+        await mailgunClient.messages.create(MAILGUN_DOMAIN, message);
 
         return new Response(null, { status: 204 });
     } catch (error) {

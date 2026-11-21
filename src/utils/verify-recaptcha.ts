@@ -1,11 +1,10 @@
 
-import config from "config";
+import { RECAPTCHA_SECRET_KEY } from "astro:env/server";
 
 const recaptchaURL = "https://www.google.com/recaptcha/api/siteverify";
 const requestHeaders = {
     "Content-Type": "application/x-www-form-urlencoded"
 };
-const secretKey = config.get<string>("recaptchaSecretKey");
 const recaptchaThreshold = 0.5;
 
 export async function verifyRecaptcha(recaptchaResponse?: string): Promise<boolean> {
@@ -14,7 +13,7 @@ export async function verifyRecaptcha(recaptchaResponse?: string): Promise<boole
     }
 
     const requestBody = new URLSearchParams({
-        secret: secretKey,
+        secret: RECAPTCHA_SECRET_KEY,
         response: recaptchaResponse
     });
   

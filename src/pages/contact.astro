@@ -1,6 +1,7 @@
 ---
 import ContactForm from "../components/react/ContactFormWrapper";
 import Layout from "../layouts/Layout.astro";
+import { RECAPTCHA_SITE_KEY } from "astro:env/client";
 
 const title = "Contact";
 ---
@@ -12,7 +13,7 @@ const title = "Contact";
 
             <p>Please feel free to reach out to Alexander with any comments, questions, or requests.</p>
 
-            <ContactForm recaptchaSiteKey={import.meta.env.RECAPTCHA_SITE_KEY} client:load/>
+            <ContactForm recaptchaSiteKey={RECAPTCHA_SITE_KEY} client:load/>
 		</div>
 	</div>
 </Layout>
