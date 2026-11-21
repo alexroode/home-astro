@@ -44,7 +44,8 @@ export async function getAllProducts(isProduction: boolean): Promise<Product[]> 
 let productsCache: Product[] = [];
 export async function getProduct(productId: string): Promise<Product | undefined> {
     if (productsCache.length === 0) {
-        productsCache = await getAllProducts(import.meta.env.PROD);
+        const isStripeLive = config.get<string>("stripeSecretKey").startsWith("sk_live_");
+        productsCache = await getAllProducts(isStripeLive);
     }
     return productsCache.find(product => product.id === productId);
 }
