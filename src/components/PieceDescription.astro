@@ -1,6 +1,6 @@
 ---
 import type { Piece } from "../types";
-import { getEntry } from "astro:content";
+import { getEntry, render } from "astro:content";
 
 interface Props {
     piece: Piece;
@@ -12,7 +12,7 @@ if (!description) {
     return;
 }
 
-const { Content } = await description.render();
+const { Content } = await render(description);
 ---
 
 <h2>Notes</h2>
