@@ -1,0 +1,14 @@
+alexander-roode.com, www.alexander-roode.com {
+	encode zstd gzip
+	reverse_proxy site-prod:4321
+}
+
+dev.alexander-roode.com {
+	encode zstd gzip
+	reverse_proxy site-dev:4321
+}
+
+media.alexander-roode.com {
+	root * /srv/media
+	file_server
+}

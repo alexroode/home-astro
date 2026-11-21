@@ -21,3 +21,4 @@ config/**/production.json
 
 # macOS-specific files
 .DS_Store
+deploy/*.env

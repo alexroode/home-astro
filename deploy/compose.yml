@@ -1,0 +1,45 @@
+# Runs on the droplet from /srv/home-astro/app. deploy.sh keeps PROD_TAG and DEV_TAG
+# in the .env file next to this one; prod.env and dev.env hold each site's secrets.
+name: home-astro
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy:/etc/caddy:ro
+      - /srv/home-astro/media:/srv/media:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+  site-prod:
+    image: ghcr.io/alexroode/home-astro:${PROD_TAG:-unset}
+    restart: unless-stopped
+    env_file:
+      - path: prod.env
+        required: false
+    environment:
+      ORDER_DOWNLOADS_ROOT_PATH: /data/downloads
+    volumes:
+      - /srv/home-astro/downloads:/data/downloads:ro
+    mem_limit: 300m
+
+  site-dev:
+    image: ghcr.io/alexroode/home-astro:${DEV_TAG:-unset}
+    restart: unless-stopped
+    env_file:
+      - path: dev.env
+        required: false
+    environment:
+      ORDER_DOWNLOADS_ROOT_PATH: /data/downloads
+    volumes:
+      - /srv/home-astro/downloads:/data/downloads:ro
+    mem_limit: 300m
+
+volumes:
+  caddy_data:
+  caddy_config:
