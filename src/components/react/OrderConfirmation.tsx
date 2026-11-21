@@ -10,7 +10,7 @@ const el = document.getElementById("order-confirmation");
 
 export default () => {
     const cart = useShoppingCart();
-    const { clearCart } = cart;
+    const { clearCart, cartCount } = cart;
     const [orderConfirmation, setOrderConfirmation] = useState<OrderConfirmation>({ total: 0, items: []});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<any>(null);
@@ -38,9 +38,12 @@ export default () => {
         return date.toLocaleString();
     }
     
+    // The saved cart is restored after this component mounts, so clear it whenever it has items.
     useEffect(() => {
-        clearCart();
-    }, []);
+        if (cartCount) {
+            clearCart();
+        }
+    }, [cartCount]);
     
     useEffect(() => {
         loadSessionDetails();
