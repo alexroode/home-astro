@@ -6,7 +6,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-# Public keys that Astro bakes into prerendered pages.
 ARG STRIPE_PUBLISHABLE_KEY
 ARG RECAPTCHA_SITE_KEY
 RUN npm run build && npm prune --omit=dev

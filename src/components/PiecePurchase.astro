@@ -5,7 +5,6 @@ interface Props {
     piece: Piece;
 }
 
-// Show live Stripe prices only when the site uses live Stripe keys, so dev can use test mode.
 const isStripeLive = import.meta.env.STRIPE_PUBLISHABLE_KEY?.startsWith("pk_live_") ?? false;
 const products = Astro.props.piece.products?.filter(product => product.prod === isStripeLive);
 

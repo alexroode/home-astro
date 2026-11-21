@@ -1,7 +1,6 @@
 trigger:
 - master
 
-# master deploys to prod; every other branch and pull request deploys to dev.
 variables:
 - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
   - group: home-astro-prod
@@ -96,5 +95,4 @@ stages:
               sshEndpoint: droplet
               runOptions: inline
               inline: bash /srv/home-astro/app/deploy.sh $(envName) $(envName)-$(Build.BuildId)
-              # docker compose writes progress to stderr; deploy.sh exits non-zero on real failures.
               failOnStdErr: false

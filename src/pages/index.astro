@@ -12,7 +12,6 @@ import UpcomingPerformances from "../components/UpcomingPerformances.astro";
 			<p>Alexander Roode is a composer and cellist based in Orange County, California.</p>
 
 			<LatestWorks />
-			{/* Rendered on each request, so past performances drop off without a rebuild. */}
 			<UpcomingPerformances server:defer />
 		</div>
 		<div class="col-md-6 col-lg-4 mb-4">
