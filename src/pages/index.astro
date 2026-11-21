@@ -12,7 +12,7 @@ import UpcomingPerformances from "../components/UpcomingPerformances.astro";
 			<p>Alexander Roode is a composer and cellist based in Orange County, California.</p>
 
 			<LatestWorks />
-			<UpcomingPerformances />
+			<UpcomingPerformances server:defer />
 		</div>
 		<div class="col-md-6 col-lg-4 mb-4">
 			<Image src={alex2} alt="Alexander Roode" class="img-fluid rounded-4" />
