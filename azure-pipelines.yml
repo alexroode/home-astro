@@ -1,96 +1,100 @@
 trigger:
 - master
 
+# master deploys to prod; every other branch and pull request deploys to dev.
 variables:
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
   - group: home-astro-prod
-  - name: branch_name
-    value: $[coalesce(variables['System.PullRequest.SourceBranch'], replace(variables['Build.SourceBranch'], 'refs/heads/', ''), 'master')]
+  - name: envName
+    value: prod
+- ${{ else }}:
+  - group: home-astro-dev
+  - name: envName
+    value: dev
+- name: image
+  value: ghcr.io/alexroode/home-astro:$(envName)-$(Build.BuildId)
 
 stages:
 - stage: Build
   jobs:
   - job: Build
-    displayName: Build
-
     pool:
-      vmImage: 'ubuntu-latest'
-
+      vmImage: ubuntu-latest
     steps:
-    - task: UseNode@1
+    - task: Docker@2
+      displayName: Log in to GitHub Container Registry
       inputs:
-        version: '20.x'
-      displayName: 'Install Node.js'
+        command: login
+        containerRegistry: ghcr
 
     - script: |
-        npm install
-        npm run build
-      displayName: 'npm install and build'
-
-    - task: CopyFiles@2
-      displayName: 'Copy files to build directory'
-      inputs:
-        contents: |
-          dist/**
-          node_modules/**
-        targetFolder: '$(Pipeline.Workspace)/build'
-
-    - task: ArchiveFiles@2
-      displayName: 'Archive files'
-      inputs:
-        rootFolderOrFile: '$(Pipeline.Workspace)/build'
-        archiveType: 'tar'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar.gz'
-        replaceExistingArchive: true
-        includeRootFolder: false
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish artifact'
-      inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tar.gz'
-        artifactName: 'home-astro-$(branch_name)'
-
-    - script: |
-        npm install
-        npm run build
-      displayName: 'npm install and build'
-
-- stage: Deploy_Staging
-  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
-  dependsOn: Build
-  jobs:
-    - deployment: VMDeploy
-      displayName: 'Deploy Staging'
-      environment:
-        name: 'production'
-        resourceType: VirtualMachine
-      workspace:
-        clean: all
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - task: Bash@3
-                displayName: 'Run deploy script'
-                inputs:
-                  arguments: '$(branch_name)'
-                  filePath: '$(deploy_script_path_staging)'
+        set -e
+        docker build --build-arg STRIPE_PUBLISHABLE_KEY --build-arg RECAPTCHA_SITE_KEY -t "$(image)" .
+        docker push "$(image)"
+      displayName: Build and push $(image)
+      env:
+        STRIPE_PUBLISHABLE_KEY: $(STRIPE_PUBLISHABLE_KEY)
+        RECAPTCHA_SITE_KEY: $(RECAPTCHA_SITE_KEY)
 
 - stage: Deploy
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   dependsOn: Build
   jobs:
-    - deployment: VMDeploy
-      displayName: 'Deploy Prod'
-      environment:
-        name: 'production'
-        resourceType: VirtualMachine
-      workspace:
-        clean: all
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - task: Bash@3
-                displayName: 'Run deploy script'
-                inputs:
-                  filePath: '$(deploy_script_path)'
+  - deployment: Deploy
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ iif(eq(variables['Build.SourceBranch'], 'refs/heads/master'), 'production', 'dev') }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: none
+          - checkout: self
+
+          - script: |
+              set -e
+              umask 077
+              for name in RECAPTCHA_SITE_KEY RECAPTCHA_SECRET_KEY MAILGUN_API_KEY MAILGUN_DOMAIN CONTACT_TO_EMAIL \
+                  STRIPE_PUBLISHABLE_KEY STRIPE_SECRET_KEY STRIPE_WEBHOOK_SECRET \
+                  AIRTABLE_API_KEY AIRTABLE_BASE_ID AIRTABLE_ORDERS_TABLE_NAME AIRTABLE_PRODUCTS_TABLE_NAME; do
+                value="${!name}"
+                if [ -z "$value" ] || [ "$value" = "\$($name)" ]; then
+                  echo "##vso[task.logissue type=error]$name is missing from the variable group"
+                  exit 1
+                fi
+                printf "%s='%s'\n" "$name" "$value"
+              done > deploy/$(envName).env
+            displayName: Write $(envName).env from the variable group
+            env:
+              RECAPTCHA_SITE_KEY: $(RECAPTCHA_SITE_KEY)
+              RECAPTCHA_SECRET_KEY: $(RECAPTCHA_SECRET_KEY)
+              MAILGUN_API_KEY: $(MAILGUN_API_KEY)
+              MAILGUN_DOMAIN: $(MAILGUN_DOMAIN)
+              CONTACT_TO_EMAIL: $(CONTACT_TO_EMAIL)
+              STRIPE_PUBLISHABLE_KEY: $(STRIPE_PUBLISHABLE_KEY)
+              STRIPE_SECRET_KEY: $(STRIPE_SECRET_KEY)
+              STRIPE_WEBHOOK_SECRET: $(STRIPE_WEBHOOK_SECRET)
+              AIRTABLE_API_KEY: $(AIRTABLE_API_KEY)
+              AIRTABLE_BASE_ID: $(AIRTABLE_BASE_ID)
+              AIRTABLE_ORDERS_TABLE_NAME: $(AIRTABLE_ORDERS_TABLE_NAME)
+              AIRTABLE_PRODUCTS_TABLE_NAME: $(AIRTABLE_PRODUCTS_TABLE_NAME)
+
+          - task: CopyFilesOverSSH@0
+            displayName: Copy compose files and secrets to the droplet
+            inputs:
+              sshEndpoint: droplet
+              sourceFolder: deploy
+              contents: |
+                compose.yml
+                deploy.sh
+                caddy/**
+                $(envName).env
+              targetFolder: /srv/home-astro/app
+
+          - task: SSH@0
+            displayName: Start $(image)
+            inputs:
+              sshEndpoint: droplet
+              runOptions: inline
+              inline: bash /srv/home-astro/app/deploy.sh $(envName) $(envName)-$(Build.BuildId)
+              # docker compose writes progress to stderr; deploy.sh exits non-zero on real failures.
+              failOnStdErr: false

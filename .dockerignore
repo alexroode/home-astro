@@ -1,0 +1,10 @@
+.git
+.astro
+.vscode
+.amp
+dist
+node_modules
+deploy
+.env*
+config/development.json
+config/production.json
