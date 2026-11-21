@@ -8,6 +8,14 @@ export default defineConfig({
   integrations: [react()],
   // Keep Astro 4's whitespace handling; Astro 7's default ('jsx') drops spaces between inline elements on separate lines.
   compressHTML: true,
+  // Trust the host and protocol Caddy forwards, so Astro.url (and Stripe's return URLs) use the public address.
+  security: {
+    allowedDomains: [
+      { protocol: "https", hostname: "alexander-roode.com" },
+      { protocol: "https", hostname: "www.alexander-roode.com" },
+      { protocol: "https", hostname: "dev.alexander-roode.com" },
+    ]
+  },
   adapter: node({
     mode: "standalone"
   })
