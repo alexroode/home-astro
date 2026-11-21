@@ -96,3 +96,5 @@ stages:
               sshEndpoint: droplet
               runOptions: inline
               inline: bash /srv/home-astro/app/deploy.sh $(envName) $(envName)-$(Build.BuildId)
+              # docker compose writes progress to stderr; deploy.sh exits non-zero on real failures.
+              failOnStdErr: false
